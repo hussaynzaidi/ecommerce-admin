@@ -1,8 +1,8 @@
 import prismadb from "@/lib/prismadb";
 
 interface GraphData {
-  name: string
-  total: number
+  name: string;
+  total: number;
 }
 export const getGraphRevenue = async (storeId: string) => {
   const paidOrders = await prismadb.order.findMany({
@@ -18,37 +18,37 @@ export const getGraphRevenue = async (storeId: string) => {
       },
     },
   });
-  const monthlyRevenue: { [key: number ] : number} = {};
+  const monthlyRevenue: { [key: number]: number } = {};
 
-  for(const order of paidOrders ) {
-    const month = order.createdAt.getMonth()
+  for (const order of paidOrders) {
+    const month = order.createdAt.getMonth();
     let revenueForOrder = 0;
 
-    for(const item of order.orderItems) {
-      revenueForOrder += item.product.price.toNumber()
+    for (const item of order.orderItems) {
+      revenueForOrder += item.product.price.toNumber();
     }
-    
-    monthlyRevenue[month] = (monthlyRevenue[month] || 0 ) + revenueForOrder
+
+    monthlyRevenue[month] = (monthlyRevenue[month] || 0) + revenueForOrder;
   }
 
   const graphData: GraphData[] = [
-    {name: 'Jan', total: 0},
-    {name: 'Feb', total: 0},
-    {name: 'March', total: 0},
-    {name: 'April', total: 0},
-    {name: 'May', total: 0},
-    {name: 'June', total: 0},
-    {name: 'July', total: 0},
-    {name: 'Aug', total: 0},
-    {name: 'Sept', total: 0},
-    {name: 'Oct', total: 0},
-    {name: 'Nov', total: 0},
-    {name: 'Dec', total: 0},
-  ]
+    { name: "Jan", total: 0 },
+    { name: "Feb", total: 0 },
+    { name: "March", total: 0 },
+    { name: "April", total: 0 },
+    { name: "May", total: 0 },
+    { name: "June", total: 0 },
+    { name: "July", total: 0 },
+    { name: "Aug", total: 0 },
+    { name: "Sept", total: 0 },
+    { name: "Oct", total: 0 },
+    { name: "Nov", total: 0 },
+    { name: "Dec", total: 0 },
+  ];
 
-  for(const month in monthlyRevenue) {
-    graphData[parseInt(month)].total = monthlyRevenue[parseInt(month)]
+  for (const month in monthlyRevenue) {
+    graphData[parseInt(month)].total = monthlyRevenue[parseInt(month)];
   }
 
-  return graphData
+  return graphData;
 };

@@ -6,7 +6,6 @@ const ProductPage = async ({
 }: {
   params: { productId: string; storeId: string };
 }) => {
-
   const product = await prismadb.product.findUnique({
     where: {
       id: params.productId,
@@ -29,7 +28,7 @@ const ProductPage = async ({
       storeId: params.storeId,
     },
   });
-  
+
   return (
     <div className="flex-col">
       <div className="flex-1 pt-6 p-8 space-y-4">

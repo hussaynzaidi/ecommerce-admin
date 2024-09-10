@@ -34,9 +34,10 @@ import * as z from "zod";
 
 interface ProductFormProps {
   initialData:
-    | Product & {
+    | (Product & {
         images: Image[];
-      }
+      })
+    | null;
 
   categories: Category[];
   sizes: Size[];
@@ -165,12 +166,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <ImageUpload
                       value={field.value.map((image) => image.url)}
                       disabled={loading}
-                      onChange={
-                        (url) =>{
-                          field.onChange([...field.value, {url}])
-                      }
-                      }
-                                          
+                      onChange={(url) => {
+                        field.onChange([...field.value, { url }]);
+                      }}
                       onRemove={(url) =>
                         field.onChange([
                           ...field.value.filter(
@@ -324,13 +322,15 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                   <FormControl>
                     <Checkbox
-                    checked = {field.value}
-                    onCheckedChange={field.onChange}
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                  <FormLabel>Featured</FormLabel>
-                  <FormDescription>This product will appear on the home page</FormDescription>
+                    <FormLabel>Featured</FormLabel>
+                    <FormDescription>
+                      This product will appear on the home page
+                    </FormDescription>
                   </div>
                   <FormMessage />
                 </FormItem>
@@ -343,13 +343,15 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                   <FormControl>
                     <Checkbox
-                    checked = {field.value}
-                    onCheckedChange={field.onChange}
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                  <FormLabel>Archived</FormLabel>
-                  <FormDescription>This product will not appear anywhere in the store</FormDescription>
+                    <FormLabel>Archived</FormLabel>
+                    <FormDescription>
+                      This product will not appear anywhere in the store
+                    </FormDescription>
                   </div>
                   <FormMessage />
                 </FormItem>
