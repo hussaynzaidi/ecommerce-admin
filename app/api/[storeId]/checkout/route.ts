@@ -10,7 +10,6 @@ const corsHeaders = {
 };
 
 export async function OPTIONS() {
-  console.log("hit options")
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
@@ -18,7 +17,6 @@ export async function POST(
   req: Request,
   { params }: { params: { storeId: string } }
 ) {
-  console.log("hit here")
   const { productIds } = await req.json();
 
   if (!productIds || productIds.length === 0) {
